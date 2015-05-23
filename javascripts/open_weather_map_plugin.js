@@ -116,5 +116,5 @@
 		{
 			newInstanceCallback(new openWeatherMapDatasource(settings, updateCallback));
 		}
-	})
+	});
 }());
