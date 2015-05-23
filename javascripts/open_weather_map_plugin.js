@@ -88,6 +88,19 @@
 				});
 			}
 		}
+		
+		function createRefreshTimer(interval)
+		{
+			if(refreshTimer)
+			{
+				clearInterval(refreshTimer);
+			}
+
+			refreshTimer = setInterval(function()
+			{
+				getData();
+			}, interval);
+		}
 
 		self.onSettingsChanged = function(newSettings)
 		{
