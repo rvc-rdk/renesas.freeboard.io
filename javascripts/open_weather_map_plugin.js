@@ -74,27 +74,30 @@
 			else {
 				return;
 			}
-			if ((latitude != '') && (longitude != '')) {
-				var url = "https://thingproxy.freeboard.io/fetch/"
-				var url_target = "http://api.openweathermap.org/data/2.5/weather?lat=";
-				url_target += latitude;
-				url_target += "&lon=";
-				url_target += longitude;
-				url_target += "&units=";
-				url_target += currentSettings.units;
-				
-				url += encodeURI(url_target);
-				
-				$.ajax({
-					url:  url,
-					dataType: "JSONP",
-					success: function (data) {
-						updateCallback(data);
-					},
-					error: function (xhr, status, error) {
-					}
-				});
-			}
+			
+			setTimeout(function(){
+				if ((latitude != '') && (longitude != '')) {
+					var url = "https://thingproxy.freeboard.io/fetch/"
+					var url_target = "http://api.openweathermap.org/data/2.5/weather?lat=";
+					url_target += latitude;
+					url_target += "&lon=";
+					url_target += longitude;
+					url_target += "&units=";
+					url_target += currentSettings.units;
+					
+					url += encodeURI(url_target);
+					
+					$.ajax({
+						url:  url,
+						dataType: "JSONP",
+						success: function (data) {
+							updateCallback(data);
+						},
+						error: function (xhr, status, error) {
+						}
+					});
+				}	
+			}, 500);
 		}
 
 		self.onSettingsChanged = function(newSettings) {
