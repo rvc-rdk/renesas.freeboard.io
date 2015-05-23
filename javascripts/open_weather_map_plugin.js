@@ -1,8 +1,69 @@
-/*
- * OpenWeatherMap data source for RDKRL78G14 dashboard
- * */
 (function()
 {
+	var openWeatherMapDatasource = function (settings, updateCallback)
+	{
+		var self = this;
+		var refreshTimer;
+		var currentSettings = settings;
+
+		function createRefreshTimer(interval)
+		{
+			if(refreshTimer)
+			{
+				clearInterval(refreshTimer);
+			}
+
+			refreshTimer = setInterval(function()
+			{
+				self.updateNow();
+			}, interval);
+		}
+		
+		createRefreshTimer(currentSettings.refresh_time);
+		
+		self.getData = function ()
+		{
+			if ((currentSettings.latitude != '') && (currentSettings.longitude != '')) 
+			{
+				var url = "http://api.openweathermap.org/data/2.5/weather?lat=";
+				url += currentSettings.latitude;
+				url += "&lon=";
+				url += currentSettings.longitude;
+				url += "&units=";
+				url += currentSettings.units;
+				
+				$.ajax ({
+					type: "POST",
+					dataType: "JSON",
+					url:  url,
+					success: function (data) {
+						updateCallback(data);
+					},
+					error: function (xhr, status, error) {
+					}
+				 
+				});
+			}
+		}
+
+		self.onSettingsChanged = function(newSettings)
+		{
+			currentSettings = newSettings;
+			self.updateNow();
+		}
+
+		self.updateNow = function()
+		{
+			self.getData();
+		}
+
+		self.onDispose = function()
+		{
+			clearInterval(refreshTimer);
+			refreshTimer = undefined;
+		}
+	};
+	
 	freeboard.loadDatasourcePlugin({
 		"type_name"   : "open_weather_map",
 		"display_name": "Open Weather Map API",
@@ -50,84 +111,5 @@
 		{
 			newInstanceCallback(new openWeatherMapDatasource(settings, updateCallback));
 		}
-	});
-
-	var openWeatherMapDatasource = function(settings, updateCallback)
-	{
-		var self = this;
-		var refreshTimer;
-		var currentSettings = settings;
-
-		function getData()
-		{
-			if ((currentSettings.latitude != '') && (currentSettings.longitude != '')) 
-			{
-				var url = "http://api.openweathermap.org/data/2.5/weather?lat=";
-				url += currentSettings.latitude;
-				url += "&lon=";
-				url += currentSettings.longitude;
-				url += "&units=";
-				url += currentSettings.units;
-				
-				$.ajax ({
-					type: "POST",
-					dataType: "JSONP",
-					url:  url + "&callback=?",
-					async: false,
-					success: function (data) {
-						var newData = 
-						{
-							place_name: data.name,
-							sunrise: (new Date(data.sys.sunrise * 1000)).toLocaleTimeString(),
-							sunset: (new Date(data.sys.sunset * 1000)).toLocaleTimeString(),
-							conditions: toTitleCase(data.weather[0].description),
-							current_temp: data.main.temp,
-							high_temp: data.main.temp_max,
-							low_temp: data.main.temp_min,
-							pressure: data.main.pressure,
-							humidity: data.main.humidity,
-							wind_speed: data.wind.speed,
-							wind_direction: data.wind.deg
-						};
-					updateCallback(newData);
-					},
-					error: function (xhr, status, error) {
-					}
-				 
-				});
-			}
-		}
-		
-		function createRefreshTimer(interval)
-		{
-			if(refreshTimer)
-			{
-				clearInterval(refreshTimer);
-			}
-
-			refreshTimer = setInterval(function()
-			{
-				getData();
-			}, interval);
-		}
-
-		self.onSettingsChanged = function(newSettings)
-		{
-			currentSettings = newSettings;
-			self.updateNow();
-		}
-
-		self.updateNow = function()
-		{
-			getData();
-		}
-
-		self.onDispose = function()
-		{
-			clearInterval(refreshTimer);
-			refreshTimer = undefined;
-		}
-
-		createRefreshTimer(currentSettings.refresh_time);
-	}
+	})
 }());
