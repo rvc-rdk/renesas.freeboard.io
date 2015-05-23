@@ -19,7 +19,7 @@
 			}, interval);
 		}
 		
-		createRefreshTimer(currentSettings.refresh_time);
+		createRefreshTimer(currentSettings.refresh_time * 1000);
 		
 		self.getData = function ()
 		{
@@ -34,8 +34,8 @@
 				
 				$.ajax ({
 					type: "POST",
-					dataType: "JSON",
-					url:  url,
+					dataType: "JSONP",
+					url:  url + "&callback=?",
 					success: function (data) {
 						updateCallback(data);
 					},
