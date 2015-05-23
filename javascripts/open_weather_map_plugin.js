@@ -2,18 +2,13 @@
 {
 	freeboard.loadDatasourcePlugin({
 		type_name   : "open_weather_map",
-		display_name: "Open Weather Map API",
+		display_name: "Open Weather Map Used for RDKRL78G14",
         	description : "",
 		settings: [
 			{
-				name        : "latitude",
-				display_name: "Latitude",
-				type        : "calculated"
-			},
-			{
-				name        : "longitude",
-				display_name: "Longitude",
-				type        : "calculated"
+				name        : "datasource",
+				display_name: "Data Source name",
+				type        : "text"
 			},
 			{
 				name        : "units",
@@ -63,7 +58,20 @@
 		updateRefreshTimer(currentSettings.refresh_time * 1000);
 		
 		this.updateNow = function() {
-			if ((currentSettings.latitude != '') && (currentSettings.longitude != '')) {
+			var thing_name = freeboard.getDatasourceSettings(currentSettings.datasource).thing_id;
+			var latitude = null;
+			var longitude = null;
+			if (thing_name != '') {
+				dweetio.get_latest_dweet_for(thing_name, function(err, dweet){
+					var dweet = dweet[0]; // Dweet is always an array of 1
+					latitude = dweet.content.Latitude;
+					longitude = dweet.content.Longitude;
+				});
+			}
+			else {
+				return;
+			}
+			if ((latitude != '') && (longitude != '')) {
 				var url = "https://thingproxy.freeboard.io/fetch/"
 				var url_target = "http://api.openweathermap.org/data/2.5/weather?lat=";
 				url_target += currentSettings.latitude;
