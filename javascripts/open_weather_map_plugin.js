@@ -4,6 +4,9 @@
 		type_name   : "open_weather_map",
 		display_name: "Open Weather Map Used for RDKRL78G14",
         	description : "",
+        	external_scripts:[
+        		"https://dweet.io/client/dweet.io.min.js"
+        	],
 		settings: [
 			{
 				name        : "datasource",
