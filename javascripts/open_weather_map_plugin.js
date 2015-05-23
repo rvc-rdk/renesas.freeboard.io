@@ -25,7 +25,7 @@
 		{
 			if ((currentSettings.latitude != '') && (currentSettings.longitude != '')) 
 			{
-				var url = "https://api.openweathermap.org/data/2.5/weather?lat=";
+				var url = "http://api.openweathermap.org/data/2.5/weather?lat=";
 				url += currentSettings.latitude;
 				url += "&lon=";
 				url += currentSettings.longitude;
