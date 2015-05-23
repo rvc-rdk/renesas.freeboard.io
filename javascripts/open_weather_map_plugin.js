@@ -4,58 +4,58 @@
 (function()
 {
 	freeboard.loadDatasourcePlugin({
-		type_name   : "open_weather_map",
-		display_name: "Open Weather Map API",
-        description : "",
+		"type_name"   : "open_weather_map",
+		"display_name": "Open Weather Map API",
+        	"description" : "",
 
-		external_scripts : [
+		"external_scripts" : [
 			//"https://dweet.io/client/dweet.io.min.js"
 		],
-		settings    : [
+		"settings"    : [
 			{
-				name         : "name",
-				display_name : "Name",
-				type         : "text",
-				default_value: "OpenWeatherMap",
-				description  : ""
+				"name"         : "name",
+				"display_name" : "Name",
+				"type"         : "text",
+				"default_value": "OpenWeatherMap",
+				"description"  : ""
 			},
 			{
-				name        : "latitude",
-				display_name: "Latitude",
-				type        : "calculated"
+				"name"        : "latitude",
+				"display_name": "Latitude",
+				"type"        : "calculated"
 			},
 			{
-				name        : "longitude",
-				display_name: "Longitude",
-				type        : "calculated"
+				"name"        : "longitude",
+				"display_name": "Longitude",
+				"type"        : "calculated"
 			},
 			{
-				name        : "units",
-				display_name: "Units",
-				type        : "option",
-				default     : "imperial",
-				options: [
+				"name"        : "units",
+				"display_name": "Units",
+				"type"        : "option",
+				"default"     : "imperial",
+				"options": [
 					{
-						name : "Imperial",
-						value: "imperial"
+						"name" : "Imperial",
+						"value": "imperial"
 					},
 					{
-						name : "Metric",
-						value: "metric"
+						"name" : "Metric",
+						"value": "metric"
 					}
 				]
 			},
 			{
-				name         : "refresh_time",
-				display_name : "Refresh Time",
-				type         : "number",
-				description  : "seconds",
-				default_value: 5
+				"name"         : "refresh_time",
+				"display_name" : "Refresh Time",
+				"type"         : "number",
+				"description"  : "seconds",
+				"default_value": 5
 			}
 		],
 		newInstance   : function(settings, newInstanceCallback, updateCallback)
 		{
-			newInstanceCallback(new myDatasourcePlugin(settings, updateCallback));
+			newInstanceCallback(new openWeatherMapDatasource(settings, updateCallback));
 		}
 	});
 
