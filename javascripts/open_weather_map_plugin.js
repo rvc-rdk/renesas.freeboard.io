@@ -13,13 +13,6 @@
 		],
 		"settings"    : [
 			{
-				"name"         : "name",
-				"display_name" : "Name",
-				"type"         : "text",
-				"default_value": "OpenWeatherMap",
-				"description"  : ""
-			},
-			{
 				"name"        : "latitude",
 				"display_name": "Latitude",
 				"type"        : "calculated"
