@@ -6,7 +6,7 @@
 		var refreshTimer;
 		var currentSettings = settings;
 
-		function createRefreshTimer(interval)
+		function updateRefreshTimer(interval)
 		{
 			if(refreshTimer)
 			{
@@ -19,27 +19,31 @@
 			}, interval);
 		}
 		
-		createRefreshTimer(currentSettings.refresh_time * 1000);
+		updateRefreshTimer(currentSettings.refresh_time * 1000);
 		
-		self.getData = function ()
+		function getData()
 		{
 			if ((currentSettings.latitude != '') && (currentSettings.longitude != '')) 
 			{
-				var url = "http://api.openweathermap.org/data/2.5/weather?lat=";
-				url += currentSettings.latitude;
-				url += "&lon=";
-				url += currentSettings.longitude;
-				url += "&units=";
-				url += currentSettings.units;
+				var url = "https://thingproxy.freeboard.io/fetch/"
+				var url_target += "http://api.openweathermap.org/data/2.5/weather?lat=";
+				url_target += currentSettings.latitude;
+				url_target += "&lon=";
+				url_target += currentSettings.longitude;
+				url_target += "&units=";
+				url_target += currentSettings.units;
+				
+				url += encodeURI(url_target);
 				
 				$.ajax ({
-					type: "POST",
+					url:  url,
 					dataType: "JSONP",
-					url:  url + "&callback=?",
+					type: "GET",
 					success: function (data) {
 						updateCallback(data);
 					},
 					error: function (xhr, status, error) {
+						self.updateNow();
 					}
 				 
 				});
@@ -49,12 +53,13 @@
 		self.onSettingsChanged = function(newSettings)
 		{
 			currentSettings = newSettings;
+			updateRefreshTimer(currentSettings.refresh_time * 1000);
 			self.updateNow();
 		}
 
 		self.updateNow = function()
 		{
-			self.getData();
+			getData();
 		}
 
 		self.onDispose = function()
