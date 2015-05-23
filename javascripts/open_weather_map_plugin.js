@@ -26,7 +26,7 @@
 			if ((currentSettings.latitude != '') && (currentSettings.longitude != '')) 
 			{
 				var url = "https://thingproxy.freeboard.io/fetch/"
-				var url_target += "http://api.openweathermap.org/data/2.5/weather?lat=";
+				var url_target = "http://api.openweathermap.org/data/2.5/weather?lat=";
 				url_target += currentSettings.latitude;
 				url_target += "&lon=";
 				url_target += currentSettings.longitude;
