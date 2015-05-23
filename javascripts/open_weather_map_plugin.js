@@ -62,9 +62,18 @@
 		{
 			if ((currentSettings.latitude != '') && (currentSettings.longitude != '')) 
 			{
+				var url = "http://api.openweathermap.org/data/2.5/weather?lat=";
+				url += currentSettings.latitude;
+				url += "&lon=";
+				url += currentSettings.longitude;
+				url += "&units=";
+				url += currentSettings.units;
+				
 				$.ajax ({
-					url: "http://api.openweathermap.org/data/2.5/weather?lat=" + currentSettings.latitude + "&lon=" + currentSettings.longitude + "&units=" + currentSettings.units,
+					type: "POST",
 					dataType: "JSONP",
+					url:  url + "&callback=?",
+					async: false,
 					success: function (data) {
 						var newData = 
 						{
