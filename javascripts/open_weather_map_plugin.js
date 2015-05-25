@@ -77,7 +77,7 @@
 			
 			setTimeout(function(){
 				if ((latitude != '') && (longitude != '')) {
-					var url = "https://thingproxy.freeboard.io/fetch/"
+					var url = "https://thingproxy.freeboard.io/fetch/";
 					var url_target = "http://api.openweathermap.org/data/2.5/weather?lat=";
 					url_target += latitude;
 					url_target += "&lon=";
@@ -96,7 +96,39 @@
 						error: function (xhr, status, error) {
 						}
 					});
-				}	
+				}
+				else {
+					var location = null;
+					var url = "https://thingproxy.freeboard.io/fetch/";
+					var openweathermap_url = "http://api.openweathermap.org/data/2.5/weather?q=";
+					var freegeoid_url = "https://freegeoip.net/json/";
+					$.ajax({
+						url: freegeoid_url,
+						dataType: "JSONP",
+						success: function (data) {
+							if (data.city != ''){
+								location = data.city;
+							}
+							else {
+								location = data.country_name;
+							}
+						},
+						error: function (xhr, status, error) {
+							
+						}
+					});
+					openweater_url += location;
+					url += encodeURI(openweathermap_url);
+					$.ajax({
+						url:  url,
+						dataType: "JSONP",
+						success: function (data) {
+							updateCallback(data);
+						},
+						error: function (xhr, status, error) {
+						}
+					});
+				}
 			}, 500);
 		}
 
