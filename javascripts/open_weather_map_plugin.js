@@ -90,6 +90,7 @@
 					$.ajax({
 						url:  url,
 						dataType: "JSONP",
+						async: false,
 						success: function (data) {
 							updateCallback(data);
 						},
