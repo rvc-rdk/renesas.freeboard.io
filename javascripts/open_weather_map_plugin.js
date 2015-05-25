@@ -105,6 +105,7 @@
 					$.ajax({
 						url: freegeoid_url,
 						dataType: "JSONP",
+						async: false,
 						success: function (data) {
 							if (data.city != ''){
 								location = data.city;
@@ -124,13 +125,14 @@
 						$.ajax({
 							url:  url,
 							dataType: "JSONP",
+							async: false,
 							success: function (data) {
 								updateCallback(data);
 							},
 							error: function (xhr, status, error) {
 							}
 						});
-					}, 1000);
+					}, 2000);
 				}
 			}, 1000);
 		}
