@@ -130,9 +130,9 @@
 							error: function (xhr, status, error) {
 							}
 						});
-					}, 500);
+					}, 1000);
 				}
-			}, 500);
+			}, 1000);
 		}
 
 		self.onSettingsChanged = function(newSettings) {
