@@ -117,17 +117,20 @@
 							
 						}
 					});
-					openweathermap_url += location;
-					url += encodeURI(openweathermap_url);
-					$.ajax({
-						url:  url,
-						dataType: "JSONP",
-						success: function (data) {
-							updateCallback(data);
-						},
-						error: function (xhr, status, error) {
-						}
-					});
+					
+					setTimeout(function() {
+						openweathermap_url += location;
+						url += encodeURI(openweathermap_url);
+						$.ajax({
+							url:  url,
+							dataType: "JSONP",
+							success: function (data) {
+								updateCallback(data);
+							},
+							error: function (xhr, status, error) {
+							}
+						});
+					}, 500);
 				}
 			}, 500);
 		}
