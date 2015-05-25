@@ -117,7 +117,7 @@
 							
 						}
 					});
-					openweater_url += location;
+					openweathermap_url += location;
 					url += encodeURI(openweathermap_url);
 					$.ajax({
 						url:  url,
