@@ -76,7 +76,7 @@
 			}
 			
 			setTimeout(function(){
-				if ((latitude != '') && (longitude != '')) {
+				if ((latitude != undefined) && (longitude != undefined)) {
 					var url = "https://thingproxy.freeboard.io/fetch/";
 					var url_target = "http://api.openweathermap.org/data/2.5/weather?lat=";
 					url_target += latitude;
